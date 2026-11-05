@@ -1,0 +1,16 @@
+name: ERPNext
+build:
+  type: compose
+compose:
+  file: pwd.yml     # the compose file in this repo (the frappe_docker "pwd.yml", edited)
+  entry: frontend   # the web server container
+  port: 8080
+resources:
+  min_ram_mb: 3072  # ERPNext needs a few GB; refuse to install on a device with less free
+env:
+  # Generated once by Gavety and kept across redeploys. pwd.yml uses them for
+  # the Administrator login and the database, instead of the upstream "admin".
+  - name: ERP_ADMIN_PASSWORD
+    generate: true
+  - name: ERP_DB_ROOT_PASSWORD
+    generate: true
